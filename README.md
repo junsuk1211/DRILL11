@@ -1,5 +1,7 @@
 # DRILL11 — 자동 무적 런
 
+공개 저장소: [junsuk1211/DRILL11](https://github.com/junsuk1211/DRILL11)
+
 ## 실행
 
 ```powershell

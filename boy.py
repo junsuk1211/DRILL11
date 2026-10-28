@@ -86,6 +86,10 @@ class Boy:
         now = monotonic()
         dt = max(0.0, now - self.last_update_time)
         self.last_update_time = now
+        if self.state == 'AUTORUN':
+            self.frame = (self.frame + ANIMATION_FPS * dt) % 8
+            self.autorun.update(self, dt)
+            return
         if self.state == 'IDLE':
             self.frame = (self.frame + ANIMATION_FPS * dt) % 8
             if monotonic() - self.idle_start_time >= 5.0:

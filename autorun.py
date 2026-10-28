@@ -1,3 +1,6 @@
+from pico2d import get_canvas_width
+
+
 class AutoRun:
     """Behavior and lifecycle of the automatic running state."""
 
@@ -10,7 +13,7 @@ class AutoRun:
         pass
 
     def update(self, boy, dt):
-        pass
+        boy.x += boy.move_dir * 300.0 * dt
 
     def draw(self, boy):
         boy.draw_running()

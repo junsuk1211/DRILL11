@@ -73,20 +73,20 @@ class Boy:
         dt = max(0.0, now - self.last_update_time)
         self.last_update_time = now
         if self.state == 'IDLE':
-            self.frame = (self.frame + 1) % 8
+            self.frame = (self.frame + ANIMATION_FPS * dt) % 8
             if monotonic() - self.idle_start_time >= 5.0:
                 self.fall_asleep()
         elif self.state == 'RUN':
-            self.frame = (self.frame + 1) % 8
+            self.frame = (self.frame + ANIMATION_FPS * dt) % 8
             self.x = max(50, min(get_canvas_width() - 50, self.x + self.move_dir * RUN_SPEED * dt))
 
     def draw(self):
         if self.state == 'IDLE':
             row = 300 if self.face_dir == 1 else 200
-            self.image.clip_draw(self.frame * 100, row, 100, 100, self.x, self.y)
+            self.image.clip_draw(int(self.frame) * 100, row, 100, 100, self.x, self.y)
         elif self.state == 'RUN':
             row = 100 if self.face_dir == 1 else 0
-            self.image.clip_draw(self.frame * 100, row, 100, 100, self.x, self.y)
+            self.image.clip_draw(int(self.frame) * 100, row, 100, 100, self.x, self.y)
         elif self.state == 'SLEEP':
             row = 300 if self.face_dir == 1 else 200
             self.image.clip_composite_draw(0, row, 100, 100, self.face_dir * pi / 2, '', self.x, self.y - 25, 100, 100)

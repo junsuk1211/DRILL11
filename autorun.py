@@ -11,6 +11,7 @@ class AutoRun:
     DURATION = 5.0
 
     def enter(self, boy):
+        boy.invincible = True
         self.started_at = monotonic()
         boy.frame = 0
         boy.move_dir = boy.face_dir
@@ -19,7 +20,7 @@ class AutoRun:
         boy.x = max(half_size, min(get_canvas_width() - half_size, boy.x))
 
     def exit(self, boy):
-        pass
+        boy.invincible = False
 
     def update(self, boy, dt):
         if monotonic() - self.started_at >= self.DURATION:

@@ -19,6 +19,7 @@ class Boy:
         self.frame = 0
         self.face_dir = 1
         self.move_dir = 0
+        self.invincible = False
         self.pressed_directions = []
         self.image = load_image('animation_sheet.png')
         self.idle_start_time = monotonic()

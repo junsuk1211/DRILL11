@@ -35,6 +35,7 @@ class Boy:
             initial='IDLE',
             auto_transitions=False,
         )
+        self.machine.add_transition('finish_autorun', 'AUTORUN', 'IDLE')
         self.machine.add_transition('start_autorun', 'IDLE', 'AUTORUN')
         self.machine.add_transition('fall_asleep', 'IDLE', 'SLEEP')
         self.machine.add_transition('wake_up', 'SLEEP', 'IDLE')

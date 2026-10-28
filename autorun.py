@@ -1,3 +1,5 @@
+from time import monotonic
+
 from pico2d import get_canvas_width
 
 
@@ -6,8 +8,10 @@ class AutoRun:
 
     SPEED = 600.0
     SCALE = 1.5
+    DURATION = 5.0
 
     def enter(self, boy):
+        self.started_at = monotonic()
         boy.frame = 0
         boy.move_dir = boy.face_dir
         boy.pressed_directions.clear()
@@ -18,6 +22,9 @@ class AutoRun:
         pass
 
     def update(self, boy, dt):
+        if monotonic() - self.started_at >= self.DURATION:
+            boy.finish_autorun()
+            return
         left = 50 * self.SCALE
         right = get_canvas_width() - left
         span = right - left

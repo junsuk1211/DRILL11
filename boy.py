@@ -7,6 +7,10 @@ from pico2d import (
 )
 from transitions import Machine
 
+RUN_SPEED = 300.0
+ANIMATION_FPS = 10.0
+
+
 class Boy:
     def __init__(self):
         self.x, self.y = 400, 90
@@ -16,6 +20,7 @@ class Boy:
         self.pressed_directions = []
         self.image = load_image('animation_sheet.png')
         self.idle_start_time = monotonic()
+        self.last_update_time = self.idle_start_time
         self.machine = Machine(
             model=self,
             states=[
@@ -64,13 +69,16 @@ class Boy:
             self.stop_running()
 
     def update(self):
+        now = monotonic()
+        dt = max(0.0, now - self.last_update_time)
+        self.last_update_time = now
         if self.state == 'IDLE':
             self.frame = (self.frame + 1) % 8
             if monotonic() - self.idle_start_time >= 5.0:
                 self.fall_asleep()
         elif self.state == 'RUN':
             self.frame = (self.frame + 1) % 8
-            self.x = max(50, min(get_canvas_width() - 50, self.x + self.move_dir * 3))
+            self.x = max(50, min(get_canvas_width() - 50, self.x + self.move_dir * RUN_SPEED * dt))
 
     def draw(self):
         if self.state == 'IDLE':

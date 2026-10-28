@@ -37,7 +37,7 @@ class Boy:
             auto_transitions=False,
         )
         self.machine.add_transition('finish_autorun', 'AUTORUN', 'IDLE')
-        self.machine.add_transition('start_autorun', 'IDLE', 'AUTORUN')
+        self.machine.add_transition('start_autorun', ['IDLE', 'SLEEP'], 'AUTORUN')
         self.machine.add_transition('fall_asleep', 'IDLE', 'SLEEP')
         self.machine.add_transition('wake_up', 'SLEEP', 'IDLE')
         self.machine.add_transition('start_running', ['IDLE', 'SLEEP', 'AUTORUN'], 'RUN')
@@ -58,7 +58,7 @@ class Boy:
         self.frame = 0
 
     def handle_event(self, event):
-        if self.state == 'IDLE' and event.type == SDL_KEYDOWN and event.key == SDLK_a:
+        if self.state in ('IDLE', 'SLEEP') and event.type == SDL_KEYDOWN and event.key == SDLK_a:
             self.start_autorun()
             return
         if self.state == 'SLEEP' and event.type == SDL_KEYDOWN and event.key == SDLK_SPACE:

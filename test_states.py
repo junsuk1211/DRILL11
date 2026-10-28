@@ -130,14 +130,50 @@ class AutoRunTests(StateTests):
         self.assertGreaterEqual(self.boy.x, 75)
         self.assertEqual(self.boy.move_dir, 1)
 
-    def test_a_is_idle_only(self):
+    def test_a_is_ignored_during_manual_run(self):
         self.key(module.SDLK_LEFT)
         self.key(module.SDLK_a)
         self.assertEqual(self.boy.state, 'RUN')
-        self.key(module.SDLK_LEFT, False)
+        self.assertFalse(self.boy.invincible)
+
+    def test_sleep_a_wakes_into_autorun_in_facing_direction(self):
+        self.boy.face_dir = -1
         self.advance(5)
-        self.key(module.SDLK_a)
         self.assertEqual(self.boy.state, 'SLEEP')
+        self.key(module.SDLK_a, False)
+        self.assertEqual(self.boy.state, 'SLEEP')
+        self.key(module.SDLK_a)
+        self.assertEqual(self.boy.state, 'AUTORUN')
+        self.assertTrue(self.boy.invincible)
+        self.assertEqual(self.boy.move_dir, -1)
+        self.advance(.1)
+        self.assertAlmostEqual(self.boy.x, 340)
+        self.boy.draw()
+        self.assertEqual(self.boy.image.clip_draw.call_args.args[-2:], (150, 150))
+
+    def test_sleep_a_starts_fresh_five_second_duration(self):
+        self.advance(20)
+        self.assertEqual(self.boy.state, 'SLEEP')
+        self.key(module.SDLK_a)
+        self.advance(4.999)
+        self.assertEqual(self.boy.state, 'AUTORUN')
+        self.advance(.001)
+        self.assertEqual(self.boy.state, 'IDLE')
+        self.assertFalse(self.boy.invincible)
+        self.advance(4.999)
+        self.assertEqual(self.boy.state, 'IDLE')
+
+    def test_sleep_autorun_can_be_cancelled_by_either_direction(self):
+        for code, direction in ((module.SDLK_LEFT, -1), (module.SDLK_RIGHT, 1)):
+            self.advance(5)
+            self.assertEqual(self.boy.state, 'SLEEP')
+            self.key(module.SDLK_a)
+            self.key(code)
+            self.assertEqual(self.boy.state, 'RUN')
+            self.assertEqual(self.boy.move_dir, direction)
+            self.assertFalse(self.boy.invincible)
+            self.key(code, False)
+            self.assertEqual(self.boy.state, 'IDLE')
 
     def test_keyup_does_not_cancel_autorun(self):
         self.activate()

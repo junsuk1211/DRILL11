@@ -7,6 +7,8 @@ from pico2d import (
 )
 from transitions import Machine
 
+from autorun import AutoRun
+
 RUN_SPEED = 300.0
 ANIMATION_FPS = 10.0
 
@@ -21,6 +23,7 @@ class Boy:
         self.image = load_image('animation_sheet.png')
         self.idle_start_time = monotonic()
         self.last_update_time = self.idle_start_time
+        self.autorun = AutoRun()
         self.machine = Machine(
             model=self,
             states=[
@@ -80,13 +83,18 @@ class Boy:
             self.frame = (self.frame + ANIMATION_FPS * dt) % 8
             self.x = max(50, min(get_canvas_width() - 50, self.x + self.move_dir * RUN_SPEED * dt))
 
+    def draw_running(self, scale=1.0):
+        row = 100 if self.face_dir == 1 else 0
+        size = 100 * scale
+        self.image.clip_draw(int(self.frame) * 100, row, 100, 100,
+                             self.x, self.y + (size - 100) / 2, size, size)
+
     def draw(self):
         if self.state == 'IDLE':
             row = 300 if self.face_dir == 1 else 200
             self.image.clip_draw(int(self.frame) * 100, row, 100, 100, self.x, self.y)
         elif self.state == 'RUN':
-            row = 100 if self.face_dir == 1 else 0
-            self.image.clip_draw(int(self.frame) * 100, row, 100, 100, self.x, self.y)
+            self.draw_running()
         elif self.state == 'SLEEP':
             row = 300 if self.face_dir == 1 else 200
             self.image.clip_composite_draw(0, row, 100, 100, self.face_dir * pi / 2, '', self.x, self.y - 25, 100, 100)

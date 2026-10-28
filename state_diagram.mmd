@@ -6,6 +6,7 @@ stateDiagram-v2
     SLEEP --> IDLE: Space keydown
     SLEEP --> RUN: Left / Right keydown
     IDLE --> AUTORUN: A keydown
+    SLEEP --> AUTORUN: A keydown (wake up)
     AUTORUN --> IDLE: 5 seconds elapsed
     AUTORUN --> RUN: Left / Right keydown (cancel)
     AUTORUN: AutoRun class / invincible

@@ -15,7 +15,7 @@ Python 3.10 이상이 필요합니다. `main.py` 위치를 기준으로 이미�
 
 | 상태 | 입력 또는 조건 | 결과 |
 | --- | --- | --- |
-| IDLE | A | AUTORUN 시작 |
+| IDLE / SLEEP | A | 일어나서 AUTORUN 시작 |
 | IDLE / SLEEP | 좌우 방향키 누름 | 해당 방향 RUN |
 | RUN | 방향키 모두 놓음 | IDLE |
 | IDLE | 5초 이상 대기 | SLEEP |
@@ -30,6 +30,8 @@ Python 3.10 이상이 필요합니다. `main.py` 위치를 기준으로 이미�
 확대 크기를 고려해 좌우 경계에서 자동 반사하며 프레임이 늦어져도 이동량을 보존합니다.
 종료 또는 취소 즉시 기본 속도와 크기로 돌아오고 `boy.invincible`도 False가 됩니다.
 현재 프로젝트에는 적이나 피격 기능이 없으므로 무적 여부는 상태 속성으로 제공합니다.
+수면 중에도 A를 누르면 즉시 일어나서 바라보던 방향으로 자동 무적 런을 시작합니다.
+5초 제한 시간은 자동 런에 진입한 시점부터 새로 측정합니다.
 자동 런 중 A를 다시 눌러도 제한 시간이 연장되지 않습니다.
 양쪽 방향키를 누르면 마지막으로 누른 방향을 따르고, 하나를 놓으면 남은 방향으로 달립니다.
 
@@ -37,7 +39,7 @@ Python 3.10 이상이 필요합니다. `main.py` 위치를 기준으로 이미�
 
 ![상태 다이어그램](state_diagram.svg)
 
-[Mermaid 원본](state_diagram.mmd) · [SVG 원본](state_diagram.svg)
+[Mermaid 원본](state_diagram.mmd) · [SVG 원본](state_diagram.svg) · [제품 요구사항(PRD)](PRD.md)
 
 ## 검증
 

@@ -1,6 +1,6 @@
 # 검증 결과
 
-- `python -B -m unittest -v test_states`: 14개 테스트 통과.
+- `python -B -m unittest -v test_states`: 17개 테스트 통과.
 - SDL dummy 비디오 드라이버와 software 렌더러로 실제 PNG를 로드하고
   IDLE, AUTORUN, RUN, SLEEP 상태 그리기 통과.
 - 자동 런 속도 600 px/s, 일반 런 속도 300 px/s.
@@ -11,5 +11,8 @@
 
 화면을 사람이 직접 조작하는 시각 검수는 수행하지 않았습니다.
 자동 테스트는 시간을 제어하고, 렌더링 확인은 실제 SDL 소프트웨어 렌더러를 사용했습니다.
+
+추가 검증: SLEEP에서 A 키를 누르면 AUTORUN으로 전환되고, A 키를 놓는 동작만으로는 전환되지 않습니다.
+수면에서 시작한 자동 런의 방향·확대·무적·새로운 5초 제한·양쪽 방향키 취소도 확인했습니다.
 
 커밋 이력은 `git log --oneline --reverse`로 확인할 수 있습니다.

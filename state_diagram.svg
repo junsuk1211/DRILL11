@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1100" height="740" viewBox="0 0 1100 740" role="img" aria-labelledby="title desc">
 <title id="title">DRILL11 Character State Diagram</title>
-<desc id="desc">IDLE enters AUTORUN on A. AUTORUN returns to IDLE after 5 seconds or enters RUN on a direction key.</desc>
+<desc id="desc">IDLE or SLEEP enters AUTORUN on A. AUTORUN returns to IDLE after 5 seconds or enters RUN on a direction key.</desc>
 <defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#475569"/></marker></defs>
 <rect width="1100" height="740" fill="#f8fafc"/>
 <g font-family="Segoe UI, sans-serif" fill="#0f172a"><text x="40" y="48" font-size="27" font-weight="700">DRILL11 · Character state machine</text>
@@ -13,6 +13,7 @@
 <path d="M365 420 V250"/>
 <path d="M415 250 L700 440"/>
 <path d="M430 475 H700"/>
+<path d="M430 560 H700"/>
 <path d="M760 420 C760 300 510 320 430 240"/>
 <path d="M820 420 V250"/>
 <path d="M940 470 C1060 470 1060 590 940 570"/>
@@ -28,11 +29,11 @@
 <g font-size="23" font-weight="700"><text x="320" y="170">IDLE</text><text x="820" y="170">RUN</text><text x="320" y="460">SLEEP</text><text x="820" y="460">AUTORUN</text></g>
 <g font-size="16"><text x="320" y="202">Reset idle timer on entry</text><text x="320" y="226">Normal size · stationary</text>
 <text x="820" y="202">300 px/s · normal size</text><text x="820" y="226">Stop at screen edges</text>
-<text x="320" y="495">Lying down</text><text x="320" y="523">Space → IDLE</text>
+<text x="320" y="495">Lying down</text><text x="320" y="523">Space → IDLE</text><text x="320" y="550">A → AUTORUN</text>
 <text x="820" y="492">AutoRun class · invincible</text><text x="820" y="519">600 px/s · 1.5× size</text><text x="820" y="546">No held keys needed</text><text x="820" y="573">Automatic wall reflection</text>
 <text x="560" y="180">Left / Right keydown</text><text x="560" y="247">All direction keys released</text>
 <text x="172" y="330">Idle ≥ 5 s</text><text x="409" y="363">Space</text>
-<text x="595" y="325">A keydown</text><text x="565" y="465">Left / Right keydown</text><text x="650" y="285">5 seconds elapsed</text>
+<text x="595" y="325">A keydown</text><text x="565" y="465">Left / Right keydown</text><text x="650" y="285">5 seconds elapsed</text><text x="565" y="590">A keydown: wake up</text>
 <text x="917" y="325">Left / Right</text><text x="917" y="348">keydown: cancel</text>
 </g></g>
 <g font-family="Segoe UI, sans-serif" fill="#475569" font-size="16"><text x="40" y="658">AUTORUN exit restores normal size, normal speed and invincibility = False.</text><text x="40" y="689">Boundary checks include half of the displayed sprite width (75 px during AUTORUN).</text></g>

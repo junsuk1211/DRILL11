@@ -5,6 +5,7 @@ class AutoRun:
     """Behavior and lifecycle of the automatic running state."""
 
     SPEED = 600.0
+    SCALE = 1.5
 
     def enter(self, boy):
         boy.frame = 0
@@ -18,4 +19,4 @@ class AutoRun:
         boy.x += boy.move_dir * self.SPEED * dt
 
     def draw(self, boy):
-        boy.draw_running()
+        boy.draw_running(scale=self.SCALE)

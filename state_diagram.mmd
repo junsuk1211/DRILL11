@@ -1,0 +1,13 @@
+stateDiagram-v2
+    [*] --> IDLE
+    IDLE --> RUN: Left / Right keydown
+    RUN --> IDLE: All direction keys released
+    IDLE --> SLEEP: Idle for 5 seconds
+    SLEEP --> IDLE: Space keydown
+    SLEEP --> RUN: Left / Right keydown
+    IDLE --> AUTORUN: A keydown
+    AUTORUN --> IDLE: 5 seconds elapsed
+    AUTORUN --> RUN: Left / Right keydown (cancel)
+    AUTORUN: AutoRun class / invincible
+    AUTORUN: Speed 600 px per second / scale 1.5
+    AUTORUN: Reflect at edges / no key needed

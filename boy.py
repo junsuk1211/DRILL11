@@ -30,6 +30,7 @@ class Boy:
                 {'name': 'IDLE', 'on_enter': 'enter_idle'},
                 {'name': 'RUN', 'on_enter': 'enter_run'},
                 'SLEEP',
+                {'name': 'AUTORUN', 'on_enter': 'enter_autorun', 'on_exit': 'exit_autorun'},
             ],
             initial='IDLE',
             auto_transitions=False,
@@ -38,6 +39,12 @@ class Boy:
         self.machine.add_transition('wake_up', 'SLEEP', 'IDLE')
         self.machine.add_transition('start_running', ['IDLE', 'SLEEP'], 'RUN')
         self.machine.add_transition('stop_running', 'RUN', 'IDLE')
+
+    def enter_autorun(self):
+        self.autorun.enter(self)
+
+    def exit_autorun(self):
+        self.autorun.exit(self)
 
     def enter_idle(self):
         self.frame = 0
@@ -90,6 +97,9 @@ class Boy:
                              self.x, self.y + (size - 100) / 2, size, size)
 
     def draw(self):
+        if self.state == 'AUTORUN':
+            self.autorun.draw(self)
+            return
         if self.state == 'IDLE':
             row = 300 if self.face_dir == 1 else 200
             self.image.clip_draw(int(self.frame) * 100, row, 100, 100, self.x, self.y)

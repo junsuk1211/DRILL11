@@ -58,5 +58,92 @@ class StateTests(unittest.TestCase):
         self.assertEqual(self.boy.state, 'RUN')
 
 
+class AutoRunTests(StateTests):
+    def activate(self):
+        self.key(module.SDLK_a)
+        self.assertEqual(self.boy.state, 'AUTORUN')
+
+    def test_activation_and_speed(self):
+        self.activate()
+        self.assertTrue(self.boy.invincible)
+        self.advance(.1)
+        self.assertAlmostEqual(self.boy.x, 460)
+        self.assertGreater(autorun.AutoRun.SPEED, module.RUN_SPEED)
+        self.boy.draw()
+        self.assertEqual(self.boy.image.clip_draw.call_args.args[-2:], (150, 150))
+
+    def test_both_walls_and_overshoot(self):
+        self.activate()
+        self.boy.x = 720
+        self.advance(.1)
+        self.assertAlmostEqual(self.boy.x, 670)
+        self.assertEqual(self.boy.face_dir, -1)
+        self.boy.x = 80
+        self.advance(.1)
+        self.assertAlmostEqual(self.boy.x, 130)
+        self.assertEqual(self.boy.face_dir, 1)
+        self.advance(3)
+        self.assertTrue(75 <= self.boy.x <= 725)
+
+    def test_timeout_and_idle_timer_restart(self):
+        self.activate()
+        self.advance(4.999)
+        self.assertEqual(self.boy.state, 'AUTORUN')
+        self.advance(.001)
+        self.assertEqual(self.boy.state, 'IDLE')
+        self.assertFalse(self.boy.invincible)
+        self.assertEqual(self.boy.move_dir, 0)
+        self.boy.draw()
+        self.assertEqual(len(self.boy.image.clip_draw.call_args.args), 6)
+        self.advance(4.999)
+        self.assertEqual(self.boy.state, 'IDLE')
+        self.advance(.001)
+        self.assertEqual(self.boy.state, 'SLEEP')
+
+    def test_cancel_in_either_direction(self):
+        for code, direction in ((module.SDLK_LEFT, -1), (module.SDLK_RIGHT, 1)):
+            self.activate()
+            self.key(code)
+            self.assertEqual(self.boy.state, 'RUN')
+            self.assertEqual(self.boy.move_dir, direction)
+            self.assertFalse(self.boy.invincible)
+            start = self.boy.x
+            self.advance(.1)
+            self.assertAlmostEqual(self.boy.x, start + direction * 30)
+            self.key(code, False)
+            self.assertEqual(self.boy.state, 'IDLE')
+
+    def test_a_does_not_restart_duration(self):
+        self.activate()
+        self.advance(4)
+        self.key(module.SDLK_a)
+        self.advance(1)
+        self.assertEqual(self.boy.state, 'IDLE')
+
+    def test_activation_clamps_enlarged_bounds_and_keeps_facing(self):
+        self.boy.x = 50
+        self.boy.face_dir = -1
+        self.activate()
+        self.assertEqual(self.boy.x, 75)
+        self.assertEqual(self.boy.move_dir, -1)
+        self.advance(.01)
+        self.assertGreaterEqual(self.boy.x, 75)
+        self.assertEqual(self.boy.move_dir, 1)
+
+    def test_a_is_idle_only(self):
+        self.key(module.SDLK_LEFT)
+        self.key(module.SDLK_a)
+        self.assertEqual(self.boy.state, 'RUN')
+        self.key(module.SDLK_LEFT, False)
+        self.advance(5)
+        self.key(module.SDLK_a)
+        self.assertEqual(self.boy.state, 'SLEEP')
+
+    def test_keyup_does_not_cancel_autorun(self):
+        self.activate()
+        self.key(module.SDLK_LEFT, False)
+        self.assertEqual(self.boy.state, 'AUTORUN')
+
+
 if __name__ == '__main__':
     unittest.main()

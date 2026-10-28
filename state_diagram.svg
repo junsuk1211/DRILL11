@@ -1,10 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1100" height="740" viewBox="0 0 1100 740" role="img" aria-labelledby="title desc">
-<title id="title">DRILL11 Character State Diagram</title>
-<desc id="desc">IDLE or SLEEP enters AUTORUN on A. AUTORUN returns to IDLE after 5 seconds or enters RUN on a direction key.</desc>
+<title id="title">DRILL11 소년 상태 다이어그램</title>
+<desc id="desc">대기 또는 수면 상태에서 A 키를 누르면 자동 무적 런을 시작합니다. 5초 후 대기로 복귀하고 방향키를 누르면 일반 달리기로 전환합니다.</desc>
 <defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#475569"/></marker></defs>
 <rect width="1100" height="740" fill="#f8fafc"/>
-<g font-family="Segoe UI, sans-serif" fill="#0f172a"><text x="40" y="48" font-size="27" font-weight="700">DRILL11 · Character state machine</text>
-<text x="40" y="78" font-size="16">One RUN state for both directions · AutoRun is a dedicated Python class</text></g>
+<g font-family="Malgun Gothic, Segoe UI, sans-serif" fill="#0f172a"><text x="40" y="48" font-size="27" font-weight="700">DRILL11 · 소년 상태 다이어그램</text>
+<text x="40" y="78" font-size="16">좌우 이동은 하나의 RUN 상태로 처리 · AutoRun 상태 클래스로 자동 무적 런 구현</text></g>
 <g stroke="#475569" stroke-width="2" fill="none" marker-end="url(#arrow)">
 <path d="M115 170 H210"/>
 <path d="M430 190 H700"/>
@@ -25,16 +25,16 @@
 <rect x="700" y="420" width="240" height="180" rx="16" fill="#fef3c7" stroke="#d97706"/>
 </g>
 <circle cx="100" cy="170" r="9" fill="#0f172a"/>
-<g font-family="Segoe UI, sans-serif" text-anchor="middle" fill="#0f172a">
-<g font-size="23" font-weight="700"><text x="320" y="170">IDLE</text><text x="820" y="170">RUN</text><text x="320" y="460">SLEEP</text><text x="820" y="460">AUTORUN</text></g>
-<g font-size="16"><text x="320" y="202">Reset idle timer on entry</text><text x="320" y="226">Normal size · stationary</text>
-<text x="820" y="202">300 px/s · normal size</text><text x="820" y="226">Stop at screen edges</text>
-<text x="320" y="495">Lying down</text><text x="320" y="523">Space → IDLE</text><text x="320" y="550">A → AUTORUN</text>
-<text x="820" y="492">AutoRun class · invincible</text><text x="820" y="519">600 px/s · 1.5× size</text><text x="820" y="546">No held keys needed</text><text x="820" y="573">Automatic wall reflection</text>
-<text x="560" y="180">Left / Right keydown</text><text x="560" y="247">All direction keys released</text>
-<text x="172" y="330">Idle ≥ 5 s</text><text x="409" y="363">Space</text>
-<text x="595" y="325">A keydown</text><text x="565" y="465">Left / Right keydown</text><text x="650" y="285">5 seconds elapsed</text><text x="565" y="590">A keydown: wake up</text>
-<text x="917" y="325">Left / Right</text><text x="917" y="348">keydown: cancel</text>
+<g font-family="Malgun Gothic, Segoe UI, sans-serif" text-anchor="middle" fill="#0f172a">
+<g font-size="23" font-weight="700"><text x="320" y="170">IDLE · 대기</text><text x="820" y="170">RUN · 달리기</text><text x="320" y="460">SLEEP · 수면</text><text x="820" y="460">AUTORUN · 자동 런</text></g>
+<g font-size="16"><text x="320" y="202">진입 시 대기 시간 초기화</text><text x="320" y="226">기본 크기 · 제자리 대기</text>
+<text x="820" y="202">초당 300픽셀 · 기본 크기</text><text x="820" y="226">화면 경계에서 정지</text>
+<text x="320" y="495">누운 자세로 수면</text><text x="320" y="523">스페이스 키 → 대기</text><text x="320" y="550">A 키 → 자동 무적 런</text>
+<text x="820" y="492">AutoRun 클래스 · 무적</text><text x="820" y="519">초당 600픽셀 · 크기 1.5배</text><text x="820" y="546">키 유지 없이 자동 이동</text><text x="820" y="573">좌우 끝에서 자동 방향 전환</text>
+<text x="560" y="180">좌우 방향키 누름</text><text x="560" y="247">방향키 모두 놓음</text>
+<text x="172" y="330">5초 이상 대기</text><text x="409" y="363">스페이스 키</text>
+<text x="595" y="325">A 키 누름</text><text x="565" y="465">좌우 방향키 누름</text><text x="650" y="285">5초 경과</text><text x="565" y="590">A 키 누름: 기상 후 자동 런</text>
+<text x="917" y="325">좌우 방향키</text><text x="917" y="348">누름: 자동 런 취소</text>
 </g></g>
-<g font-family="Segoe UI, sans-serif" fill="#475569" font-size="16"><text x="40" y="658">AUTORUN exit restores normal size, normal speed and invincibility = False.</text><text x="40" y="689">Boundary checks include half of the displayed sprite width (75 px during AUTORUN).</text></g>
+<g font-family="Malgun Gothic, Segoe UI, sans-serif" fill="#475569" font-size="16"><text x="40" y="658">자동 무적 런 종료 시 기본 크기와 속도로 복귀하고 무적이 해제됩니다.</text><text x="40" y="689">화면 경계는 표시 크기의 절반을 고려합니다. 자동 런의 중심 좌표 범위: 75~725픽셀.</text></g>
 </svg>

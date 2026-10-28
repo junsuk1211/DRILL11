@@ -1,14 +1,19 @@
 stateDiagram-v2
+    state "대기 (IDLE)" as IDLE
+    state "달리기 (RUN)" as RUN
+    state "수면 (SLEEP)" as SLEEP
+    state "자동 무적 런 (AUTORUN)" as AUTORUN
+
     [*] --> IDLE
-    IDLE --> RUN: Left / Right keydown
-    RUN --> IDLE: All direction keys released
-    IDLE --> SLEEP: Idle for 5 seconds
-    SLEEP --> IDLE: Space keydown
-    SLEEP --> RUN: Left / Right keydown
-    IDLE --> AUTORUN: A keydown
-    SLEEP --> AUTORUN: A keydown (wake up)
-    AUTORUN --> IDLE: 5 seconds elapsed
-    AUTORUN --> RUN: Left / Right keydown (cancel)
-    AUTORUN: AutoRun class / invincible
-    AUTORUN: Speed 600 px per second / scale 1.5
-    AUTORUN: Reflect at edges / no key needed
+    IDLE --> RUN: 좌우 방향키 누름
+    RUN --> IDLE: 방향키 모두 놓음
+    IDLE --> SLEEP: 5초 이상 대기
+    SLEEP --> IDLE: 스페이스 키 누름
+    SLEEP --> RUN: 좌우 방향키 누름
+    IDLE --> AUTORUN: A 키 누름
+    SLEEP --> AUTORUN: A 키 누름 / 기상
+    AUTORUN --> IDLE: 5초 경과
+    AUTORUN --> RUN: 좌우 방향키 누름 / 자동 런 취소
+    AUTORUN: AutoRun 상태 클래스 / 무적
+    AUTORUN: 초당 600픽셀 / 크기 1.5배
+    AUTORUN: 좌우 끝에서 자동 방향 전환 / 키 유지 불필요

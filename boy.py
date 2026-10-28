@@ -39,7 +39,7 @@ class Boy:
         self.machine.add_transition('start_autorun', 'IDLE', 'AUTORUN')
         self.machine.add_transition('fall_asleep', 'IDLE', 'SLEEP')
         self.machine.add_transition('wake_up', 'SLEEP', 'IDLE')
-        self.machine.add_transition('start_running', ['IDLE', 'SLEEP'], 'RUN')
+        self.machine.add_transition('start_running', ['IDLE', 'SLEEP', 'AUTORUN'], 'RUN')
         self.machine.add_transition('stop_running', 'RUN', 'IDLE')
 
     def enter_autorun(self):
@@ -78,7 +78,7 @@ class Boy:
         if self.pressed_directions:
             self.move_dir = 1 if self.pressed_directions[-1] == SDLK_RIGHT else -1
             self.face_dir = self.move_dir
-            if self.state in ('IDLE', 'SLEEP'):
+            if self.state in ('IDLE', 'SLEEP', 'AUTORUN'):
                 self.start_running()
         elif self.state == 'RUN':
             self.stop_running()
